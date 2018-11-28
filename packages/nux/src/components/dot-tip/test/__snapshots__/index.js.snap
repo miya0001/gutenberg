@@ -8,6 +8,14 @@ exports[`DotTip should render a button when collapsible 1`] = `
 />
 `;
 
+exports[`DotTip should render a custom label when collapsible 1`] = `
+<button
+  aria-label="Toggle tip"
+  className="nux-dot-tip"
+  onClick={[Function]}
+/>
+`;
+
 exports[`DotTip should render the tip after being clicked when collapsible 1`] = `
 <button
   aria-label="Close tip"
@@ -15,7 +23,7 @@ exports[`DotTip should render the tip after being clicked when collapsible 1`] =
   onClick={[Function]}
 >
   <Popover
-    aria-label="Gutenberg tips"
+    aria-label="Block Editor Tips"
     className="nux-dot-tip__popover"
     focusOnMount="container"
     noArrow={true}
@@ -47,7 +55,7 @@ exports[`DotTip should render the tip when non-collapsible 1`] = `
   className="nux-dot-tip"
 >
   <Popover
-    aria-label="Gutenberg tips"
+    aria-label="Block Editor Tips"
     className="nux-dot-tip__popover"
     focusOnMount="container"
     noArrow={true}
