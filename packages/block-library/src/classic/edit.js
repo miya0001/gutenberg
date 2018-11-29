@@ -50,12 +50,16 @@ export default class ClassicEdit extends Component {
 	}
 
 	componentDidUpdate( prevProps ) {
-		const { clientId, attributes: { content } } = this.props;
+		const { clientId, attributes: { content }, isSelected } = this.props;
 
 		const editor = window.tinymce.get( `editor-${ clientId }` );
 
 		if ( prevProps.attributes.content !== content ) {
 			editor.setContent( content || '' );
+		}
+
+		if ( ! isSelected ) {
+			delete this.bookmark;
 		}
 	}
 
@@ -84,13 +88,17 @@ export default class ClassicEdit extends Component {
 		}
 
 		editor.on( 'blur', () => {
-			const bookmark = editor.selection.getBookmark( 2, true );
+			this.bookmark = editor.selection.getBookmark( 2, true );
 
 			setAttributes( {
 				content: editor.getContent(),
 			} );
 
-			editor.once( 'focus', () => editor.selection.moveToBookmark( bookmark ) );
+			editor.once( 'focus', () => {
+				if ( this.bookmark ) {
+					editor.selection.moveToBookmark( this.bookmark );
+				}
+			} );
 
 			return false;
 		} );
