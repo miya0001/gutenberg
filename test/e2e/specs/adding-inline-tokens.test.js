@@ -30,15 +30,26 @@ describe( 'adding inline tokens', () => {
 
 		// Wait for media modal to appear and upload image.
 		await page.waitForSelector( '.media-modal input[type=file]' );
+		await page.click( '.uploader-inline-content button' );
 		const inputElement = await page.$( '.media-modal input[type=file]' );
 		const testImagePath = path.join( __dirname, '..', 'assets', '10x10_e2e_test_image_z9T8jK.png' );
 		const filename = uuid();
 		const tmpFileName = path.join( os.tmpdir(), filename + '.png' );
 		fs.copyFileSync( testImagePath, tmpFileName );
-		await inputElement.uploadFile( tmpFileName );
+		await inputElement.uploadFile( testImagePath );
+
+		await page.waitFor( 2000 );
+
+		const mediaModalContent = await page.evaluate( ( selector ) => {
+			return document.querySelector(
+				selector
+			).innerHTML;
+		}, '.media-modal' );
+
+		expect( mediaModalContent ).toEqual( '' );
 
 		// Wait for upload.
-		await page.waitForSelector( `.media-modal li[aria-label="${ filename }"]` );
+		await page.waitForSelector( `[aria-label~="10x10_e2e_test_image_z9T8jK"]` );
 
 		// Insert the uploaded image.
 		await page.click( '.media-modal button.media-button-select' );

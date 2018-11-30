@@ -77,5 +77,8 @@ fi
 echo -e $(status_message "Activating Gutenberg...")
 docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin activate gutenberg >/dev/null
 
+# Debug permissions
+docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run -T --rm $CONTAINER stat -c %a wp-content/uploads
+
 # Install a dummy favicon to avoid 404 errors.
 docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CONTAINER touch /var/www/html/favicon.ico
