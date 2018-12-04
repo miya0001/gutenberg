@@ -83,7 +83,7 @@ docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin activate gutenb
 
 if [ "$POPULAR_PLUGINS" = "true" ]; then
 	echo -e $(status_message "Activating popular plugins...")
-	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin install wordpress-seo --activate >/dev/null
+	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI --debug plugin install wordpress-seo --activate >/dev/null
 	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin install jetpack --activate >/dev/null
 	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin install advanced-custom-fields --activate >/dev/null
 fi
