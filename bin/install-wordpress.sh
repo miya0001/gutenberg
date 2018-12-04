@@ -73,19 +73,15 @@ if [ "$CURRENT_URL" != "http://localhost:$HOST_PORT" ]; then
 	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI option update siteurl "http://localhost:$HOST_PORT" >/dev/null
 fi
 
-# Ensure plugins can be installed.
-docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CONTAINER chmod 777 /var/www/html/wp-content/plugins
-# docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CONTAINER chmod 777 /var/www/html/wp-content/upgrade
-
 # Activate Gutenberg.
 echo -e $(status_message "Activating Gutenberg...")
 docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin activate gutenberg >/dev/null
 
 if [ "$POPULAR_PLUGINS" = "true" ]; then
 	echo -e $(status_message "Activating popular plugins...")
-	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI --debug plugin install wordpress-seo --activate
-	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin install jetpack --activate >/dev/null
-	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm $CLI plugin install advanced-custom-fields --activate >/dev/null
+	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm -u 33 $CLI plugin install wordpress-seo --activate >/dev/null
+	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm -u 33 $CLI plugin install jetpack --activate >/dev/null
+	docker-compose $DOCKER_COMPOSE_FILE_OPTIONS run --rm -u 33 $CLI plugin install advanced-custom-fields --activate >/dev/null
 fi
 
 # Install a dummy favicon to avoid 404 errors.
